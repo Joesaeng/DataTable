@@ -1,6 +1,9 @@
 # DataTable
 유니티 데이터테이블
 
+블로그글
+https://ch5saeng.tistory.com/63
+
 Example.cs
 
 ```
