@@ -13,36 +13,6 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
 
-// 구글 서비스 계정 인증 유틸
-public static class GoogleSheetsService
-{
-    // 생성한 구글클라우드 콘솔의 키 json 경로
-    private const string credentialsPath = "Assets/StreamingAssets/credentials.json";
-
-    public static SheetsService GetSheetsService()
-    {
-        try
-        {
-            GoogleCredential credential;
-            using (var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read))
-            {
-                credential = GoogleCredential.FromStream(stream)
-                    .CreateScoped(SheetsService.Scope.SpreadsheetsReadonly);
-            }
-            return new SheetsService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = "Unity Google Sheets Importer"
-            });
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"GoogleSheetsService 초기화 실패: {e.Message}");
-            return null;
-        }
-    }
-}
-
 // CSV 다운로드용 에디터 윈도우 (Sheets API + CSVHelper)
 public class GoogleSheetCsvImporter : EditorWindow
 {
@@ -50,7 +20,7 @@ public class GoogleSheetCsvImporter : EditorWindow
     private string outputFolder = "Assets/Data/CSVs";
     private SheetsService service;
 
-    [MenuItem("Tools/DataTable/Google Sheet CSV Importer",priority = 0)]
+    [MenuItem("Tools/DataTable/Google Sheet CSV Importer",priority = 1)]
     public static void ShowWindow()
     {
         GetWindow<GoogleSheetCsvImporter>("Google Sheet CSV Importer");

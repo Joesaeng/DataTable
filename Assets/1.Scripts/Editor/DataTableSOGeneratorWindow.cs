@@ -17,9 +17,9 @@ public class DataTableSOGeneratorWindow : EditorWindow
     private string dataTableDefinePath = "Assets/1.Scripts/DataTable"; // DataTable Define 파일을 생성할 폴더 경로
     private string namespaceName   = string.Empty;
 
-    [MenuItem("Tools/DataTable/Generate SO Assets", priority = 2)]
+    [MenuItem("Tools/DataTable/Generate SO Assets", priority = 3)]
     public static void ShowSOWindow() =>
-        GetWindow<DataTableSOGeneratorWindow>("SO Asset Generator");
+        GetWindow<DataTableSOGeneratorWindow>("데이터테이블 SO 생성기");
 
     private void OnGUI()
     {

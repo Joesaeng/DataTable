@@ -13,7 +13,7 @@ public class DataTableRowGeneratorWindow : EditorWindow
     private string outputFolder = "Assets/1.Scripts/DataTable/DataTableRows"; // 积己且 DataTableRow 努贰胶 颇老 版肺
     private string namespaceName = string.Empty;
 
-    [MenuItem("Tools/DataTable/DataTableRow 积己扁", priority = 1)]
+    [MenuItem("Tools/DataTable/DataTableRow 积己扁", priority = 2)]
     public static void OpenWindow()
     {
         GetWindow<DataTableRowGeneratorWindow>("DataTableRow 积己扁").Show();

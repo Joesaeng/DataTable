@@ -32,7 +32,7 @@ public class DataTableWindow : EditorWindow
     {
         var window = GetWindow<DataTableWindow>("DataTable Preview");
         window.table = table;
-        window.minSize = new Vector2(400, 200);
+        window.minSize = new Vector2(400, 400);
         window.Show();
     }
 
