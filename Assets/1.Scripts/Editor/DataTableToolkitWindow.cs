@@ -18,7 +18,7 @@ using UnityEditor.PackageManager.UI;
 public class DataTableToolkitWindow : EditorWindow
 {
     // GoogleSheetCsvImporter
-    private string spreadsheetId = "구글시트 경로";
+    private string spreadsheetId = "구글시트 ID";
     private string csvOutputFolder = "Assets/Data/CSVs";
     private SheetsService service;
 
@@ -51,12 +51,14 @@ public class DataTableToolkitWindow : EditorWindow
     private void OnGUI()
     {
         EditorGUILayout.LabelField("구글시트 가져오기", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox("CSV 파일 규칙: 1행=주석, 2행=변수 타입, 3행=변수명\n" +
+            "Tip: https://docs.google.com/spreadsheets/d/구글시트 ID/edit?gid=0#gid=0", MessageType.Info);
         spreadsheetId = EditorGUILayout.TextField("구글시트 ID", spreadsheetId);
-        csvOutputFolder = EditorGUILayout.TextField("CSV생성 경로", csvOutputFolder);
+        csvOutputFolder = EditorGUILayout.TextField("CSV파일 생성 폴더", csvOutputFolder);
 
-        EditorGUILayout.HelpBox("CSV 파일 규칙: 1행=주석, 2행=변수 타입, 3행=변수명", MessageType.Info);
+        
 
-        if (GUILayout.Button("Download All Table Sheets"))
+        if (GUILayout.Button("모든 Table 시트를 가져오기"))
         {
             if (string.IsNullOrEmpty(spreadsheetId))
                 Debug.LogError("Spreadsheet ID를 입력하세요.");
@@ -71,21 +73,21 @@ public class DataTableToolkitWindow : EditorWindow
         EditorGUILayout.HelpBox("CSV 파일 규칙: 1행=주석, 2행=변수 타입, 3행=변수명", MessageType.Info);
 
         dataTalbeRowCsvAsset = (TextAsset)EditorGUILayout.ObjectField("CSV File", dataTalbeRowCsvAsset, typeof(TextAsset), false);
-        inputCsvFolder = EditorGUILayout.TextField("Input CSV Folder", inputCsvFolder);
-        dataTalbwRowOutputFolder = EditorGUILayout.TextField("Output Folder", dataTalbwRowOutputFolder);
+        inputCsvFolder = EditorGUILayout.TextField("CSV 파일 폴더", inputCsvFolder);
+        dataTalbwRowOutputFolder = EditorGUILayout.TextField("DataTableRow 생성 폴더", dataTalbwRowOutputFolder);
         namespaceName = EditorGUILayout.TextField("Namespace (옵션)", namespaceName);
 
         // CSV 에셋이 없으면 비활성화된 버튼 표시
         GUILayout.Space(10);
         EditorGUI.BeginDisabledGroup(dataTalbeRowCsvAsset == null);
-        if (GUILayout.Button("Generate Row Class"))
+        if (GUILayout.Button("선택한 CSV로 DataTableRow 클래스 생성"))
         {
             GenerateRowClass(dataTalbeRowCsvAsset);
         }
         EditorGUI.EndDisabledGroup();
 
         GUILayout.Space(10);
-        if (GUILayout.Button("Generate All from Folder"))
+        if (GUILayout.Button("CSV 파일 경로의 모든 CSV에서 DataTableRow 생성"))
         {
             GenerateAllRowClasses();
         }
@@ -94,20 +96,20 @@ public class DataTableToolkitWindow : EditorWindow
         EditorGUILayout.LabelField("CSV → DataTable SO 생성", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
             "CSV 폴더의 .csv 파일을 읽어 DataTable SO 에셋을 생성합니다.\n" +
-            "1행=주석, 2행=타입, 3행=변수명, 4행부터 데이터", MessageType.Info);
+            "1행=주석, 2행=변수 타입, 3행=변수명, 4행부터 데이터", MessageType.Info);
 
         dataTableCsvAsset = (TextAsset)EditorGUILayout.ObjectField("CSV File", dataTableCsvAsset, typeof(TextAsset), false);
-        inputCsvFolder = EditorGUILayout.TextField("CSV 파일 경로", inputCsvFolder);
-        soOutputFolder = EditorGUILayout.TextField("데이터테이블 SO 생성 경로", soOutputFolder);
-        dataTableDefinePath = EditorGUILayout.TextField("DataTableDefine 생성 경로", dataTableDefinePath);
+        inputCsvFolder = EditorGUILayout.TextField("CSV 파일 폴더", inputCsvFolder);
+        soOutputFolder = EditorGUILayout.TextField("데이터테이블 SO 생성 폴더", soOutputFolder);
+        dataTableDefinePath = EditorGUILayout.TextField("Define 생성 폴더", dataTableDefinePath);
         namespaceName = EditorGUILayout.TextField("Namespace (옵션)", namespaceName);
 
         // CSV 에셋이 없으면 비활성화된 버튼 표시
         GUILayout.Space(10);
-        EditorGUI.BeginDisabledGroup(dataTalbeRowCsvAsset == null);
-        if (GUILayout.Button("선택한 SO 에셋 생성"))
+        EditorGUI.BeginDisabledGroup(dataTableCsvAsset == null);
+        if (GUILayout.Button("선택한 CSV로 SO 에셋 생성"))
         {
-            GenerateSOAsset(dataTalbeRowCsvAsset);
+            GenerateSOAsset(dataTableCsvAsset);
         }
         EditorGUI.EndDisabledGroup();
 
